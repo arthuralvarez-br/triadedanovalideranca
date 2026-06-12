@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Diagnóstico do Líder Pós-IA | A Tríade da Nova Liderança</title>
+<meta name="description" content="Descubra em 3 minutos que líder a era da IA encontra em você. Diagnóstico gratuito baseado nos três pilares da Tríade da Nova Liderança.">
+<meta property="og:title" content="Diagnóstico do Líder Pós-IA">
+<meta property="og:description" content="3 minutos. 15 perguntas. Seu arquétipo de liderança na era da IA.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#0B1B2B;          /* azul profundo (cap. 10) */
+  --ink-2:#10243A;
+  --ink-3:#16304C;
+  --brass:#C9A14E;        /* latão da bússola */
+  --brass-soft:#E0C285;
+  --sand:#EFE7D3;         /* areia, texto principal */
+  --mist:#8FA3B5;         /* texto secundário */
+  --quartzo:#A9CFEC;      /* pilar 1 */
+  --granito:#B9C3CC;      /* pilar 2 */
+  --argila:#D98B5F;       /* pilar 3 */
+  --ok:#7FC8A9;
+  --radius:18px;
+  --maxw:680px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  font-family:'Inter',system-ui,sans-serif;
+  background:var(--ink);
+  color:var(--sand);
+  min-height:100vh;
+  line-height:1.6;
+  background-image:radial-gradient(ellipse 120% 60% at 50% -10%, rgba(201,161,78,.10), transparent 60%);
+}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 22px}
+.screen{display:none;min-height:100vh;flex-direction:column}
+.screen.active{display:flex}
+.fade-in{animation:fade .5s ease both}
+@keyframes fade{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.fade-in{animation:none}}
+
+h1,h2,.serif{font-family:'Fraunces',serif}
+.eyebrow{
+  font-size:.74rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--brass);margin-bottom:14px;
+}
+button{font-family:inherit;cursor:pointer;border:none}
+button:focus-visible,a:focus-visible,input:focus-visible{outline:2px solid var(--brass);outline-offset:3px}
+
+/* ---------- INTRO ---------- */
+#intro{justify-content:center;text-align:center;padding:48px 0 40px}
+#intro h1{
+  font-size:clamp(2rem,7.5vw,3.1rem);font-weight:700;line-height:1.12;
+  letter-spacing:-.01em;margin-bottom:18px;
+}
+#intro h1 em{font-style:italic;color:var(--brass-soft)}
+.sub{color:var(--mist);font-size:1.02rem;max-width:480px;margin:0 auto 34px}
+.stones{display:flex;justify-content:center;gap:14px;margin-bottom:36px}
+.stone{
+  display:flex;flex-direction:column;align-items:center;gap:8px;
+  background:var(--ink-2);border:1px solid rgba(201,161,78,.18);
+  border-radius:var(--radius);padding:16px 10px;flex:1;max-width:150px;
+}
+.stone svg{width:30px;height:30px}
+.stone span{font-size:.7rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--mist)}
+.btn-primary{
+  background:var(--brass);color:var(--ink);font-weight:700;font-size:1.02rem;
+  padding:17px 38px;border-radius:999px;width:100%;max-width:380px;margin:0 auto;
+  display:block;transition:transform .15s ease, box-shadow .15s ease;
+  box-shadow:0 6px 24px rgba(201,161,78,.28);
+}
+.btn-primary:hover{transform:translateY(-1px);box-shadow:0 10px 30px rgba(201,161,78,.36)}
+.trust{font-size:.8rem;color:var(--mist);margin-top:22px}
+.trust strong{color:var(--sand);font-weight:600}
+
+/* ---------- QUIZ ---------- */
+#quiz{padding:28px 0 40px;justify-content:flex-start}
+.progress-row{display:flex;align-items:center;gap:14px;margin-bottom:8px}
+.progress-track{flex:1;height:5px;background:var(--ink-3);border-radius:99px;overflow:hidden}
+.progress-fill{height:100%;width:0%;background:var(--brass);border-radius:99px;transition:width .3s ease}
+.progress-num{font-size:.78rem;color:var(--mist);font-variant-numeric:tabular-nums;white-space:nowrap}
+.pillar-tag{
+  display:inline-flex;align-items:center;gap:7px;font-size:.72rem;font-weight:600;
+  letter-spacing:.1em;text-transform:uppercase;margin:30px 0 16px;color:var(--mist);
+}
+.pillar-dot{width:9px;height:9px;border-radius:50%}
+.question{
+  font-family:'Fraunces',serif;font-size:clamp(1.35rem,5.4vw,1.8rem);
+  font-weight:600;line-height:1.32;min-height:120px;margin-bottom:30px;
+}
+.likert{display:flex;flex-direction:column;gap:10px}
+.likert button{
+  background:var(--ink-2);border:1px solid var(--ink-3);color:var(--sand);
+  border-radius:14px;padding:15px 18px;font-size:.96rem;font-weight:500;
+  text-align:left;display:flex;align-items:center;gap:12px;
+  transition:border-color .15s ease, background .15s ease;
+}
+.likert button:hover{border-color:var(--brass);background:var(--ink-3)}
+.likert .dot{
+  width:18px;height:18px;border-radius:50%;border:2px solid var(--mist);flex-shrink:0;
+}
+.likert button:hover .dot{border-color:var(--brass)}
+.back-link{
+  background:none;color:var(--mist);font-size:.85rem;margin-top:26px;
+  text-decoration:underline;text-underline-offset:3px;align-self:flex-start;
+}
+
+/* ---------- LEAD ---------- */
+#lead{justify-content:center;padding:48px 0}
+#lead h2{font-size:clamp(1.7rem,6.5vw,2.3rem);font-weight:700;line-height:1.18;margin-bottom:12px}
+#lead .sub{margin-bottom:30px;text-align:left;margin-left:0}
+.field{margin-bottom:16px}
+.field label{display:block;font-size:.8rem;font-weight:600;color:var(--mist);margin-bottom:7px;letter-spacing:.04em;text-transform:uppercase}
+.field input{
+  width:100%;background:var(--ink-2);border:1px solid var(--ink-3);
+  border-radius:14px;padding:15px 16px;color:var(--sand);font-size:1rem;font-family:inherit;
+}
+.field input::placeholder{color:#5E7286}
+.privacy{font-size:.76rem;color:var(--mist);margin-top:16px}
+.err{color:#E8A2A2;font-size:.83rem;margin-top:10px;display:none}
+
+/* ---------- RESULT ---------- */
+#result{padding:42px 0 56px}
+.result-eyebrow{text-align:center}
+.archetype{
+  font-family:'Fraunces',serif;text-align:center;font-size:clamp(2rem,8vw,3rem);
+  font-weight:700;line-height:1.1;margin-bottom:10px;color:var(--brass-soft);
+}
+.lema{text-align:center;color:var(--mist);font-style:italic;font-size:1rem;margin-bottom:34px}
+.radar-box{display:flex;justify-content:center;margin-bottom:10px}
+.radar-labels{display:flex;justify-content:space-between;max-width:420px;margin:0 auto 34px;width:100%}
+.bars{display:flex;flex-direction:column;gap:16px;margin-bottom:36px}
+.bar-row .bar-head{display:flex;justify-content:space-between;font-size:.82rem;font-weight:600;margin-bottom:7px}
+.bar-row .bar-head .pct{font-variant-numeric:tabular-nums;color:var(--sand)}
+.bar-track{height:9px;background:var(--ink-3);border-radius:99px;overflow:hidden}
+.bar-fill{height:100%;border-radius:99px;width:0%;transition:width .9s cubic-bezier(.2,.7,.3,1)}
+.card{
+  background:var(--ink-2);border:1px solid rgba(201,161,78,.16);
+  border-radius:var(--radius);padding:22px;margin-bottom:14px;
+}
+.card h3{font-size:.74rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--brass);margin-bottom:8px}
+.card p{font-size:.95rem;color:var(--sand)}
+.card p em{color:var(--brass-soft);font-style:normal;font-weight:600}
+.actions{display:flex;flex-direction:column;gap:12px;margin-top:30px}
+.btn-secondary{
+  background:var(--ink-2);color:var(--sand);border:1px solid var(--brass);
+  font-weight:600;font-size:.98rem;padding:16px;border-radius:999px;width:100%;
+}
+.btn-secondary:hover{background:var(--ink-3)}
+.cta-box{
+  margin-top:34px;background:linear-gradient(160deg,var(--ink-3),var(--ink-2));
+  border:1px solid rgba(201,161,78,.35);border-radius:var(--radius);padding:26px 22px;
+}
+.cta-box h2{font-size:clamp(1.4rem,5.5vw,1.8rem);font-weight:700;line-height:1.25;margin-bottom:10px}
+.cta-box ul{list-style:none;margin:16px 0 22px;display:flex;flex-direction:column;gap:10px}
+.cta-box li{display:flex;gap:10px;font-size:.92rem;color:var(--sand)}
+.cta-box li::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--brass);flex-shrink:0;margin-top:8px}
+.price-line{font-size:.85rem;color:var(--mist);text-align:center;margin-top:12px}
+.price-line strong{color:var(--brass-soft);font-size:1.05rem}
+.book-line{text-align:center;font-size:.85rem;color:var(--mist);margin-top:30px}
+.book-line a{color:var(--brass-soft)}
+footer{text-align:center;font-size:.74rem;color:#5E7286;padding:30px 0 40px}
+</style>
+</head>
+<body>
+
+<!-- ============ TELA 1: INTRO ============ -->
+<section id="intro" class="screen active">
+  <div class="wrap fade-in">
+    <p class="eyebrow">Diagnóstico gratuito · 3 minutos</p>
+    <h1>Que líder a era da IA <em>encontra</em> em você?</h1>
+    <p class="sub">15 perguntas diretas. Ao final, você descobre seu arquétipo de liderança e onde está seu maior gap nos três pilares da Tríada da Nova Liderança.</p>
+    <div class="stones">
+      <div class="stone">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M12 3l7 6-3 11H8L5 9l7-6z" stroke="#A9CFEC" stroke-width="1.6" stroke-linejoin="round"/></svg>
+        <span>Autoliderança</span>
+      </div>
+      <div class="stone">
+        <svg viewBox="0 0 24 24" fill="none"><rect x="5" y="5" width="14" height="14" rx="2.5" stroke="#B9C3CC" stroke-width="1.6"/></svg>
+        <span>Intenção</span>
+      </div>
+      <div class="stone">
+        <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="8" stroke="#D98B5F" stroke-width="1.6"/><path d="M12 8v4l3 2" stroke="#D98B5F" stroke-width="1.6" stroke-linecap="round"/></svg>
+        <span>Tecnologia</span>
+      </div>
+    </div>
+    <button class="btn-primary" onclick="startQuiz()">Iniciar diagnóstico</button>
+    <p class="trust">Baseado no livro <strong>A Tríade da Nova Liderança, Pós-IA</strong>, de Arthur Alvarez</p>
+  </div>
+</section>
+
+<!-- ============ TELA 2: QUIZ ============ -->
+<section id="quiz" class="screen">
+  <div class="wrap">
+    <div class="progress-row">
+      <div class="progress-track"><div class="progress-fill" id="pfill"></div></div>
+      <span class="progress-num" id="pnum">1 / 15</span>
+    </div>
+    <div id="qbody"></div>
+  </div>
+</section>
+
+<!-- ============ TELA 3: LEAD ============ -->
+<section id="lead" class="screen">
+  <div class="wrap fade-in">
+    <p class="eyebrow">Diagnóstico concluído</p>
+    <h2>Seu resultado está pronto.</h2>
+    <p class="sub">Informe seus dados para visualizar seu arquétipo e o mapa dos três pilares.</p>
+    <div class="field">
+      <label for="lname">Nome</label>
+      <input id="lname" type="text" placeholder="Seu primeiro nome" autocomplete="given-name">
+    </div>
+    <div class="field">
+      <label for="lemail">E-mail</label>
+      <input id="lemail" type="email" placeholder="voce@empresa.com.br" autocomplete="email">
+    </div>
+    <p class="err" id="lerr">Preencha nome e um e-mail válido para continuar.</p>
+    <div style="margin-top:24px">
+      <button class="btn-primary" onclick="submitLead()">Ver meu resultado</button>
+    </div>
+    <p class="privacy">Seus dados são usados apenas para enviar seu diagnóstico e conteúdos da Tríade. Sem spam.</p>
+  </div>
+</section>
+
+<!-- ============ TELA 4: RESULTADO ============ -->
+<section id="result" class="screen">
+  <div class="wrap fade-in">
+    <p class="eyebrow result-eyebrow">Seu arquétipo de liderança</p>
+    <h1 class="archetype" id="rname"></h1>
+    <p class="lema" id="rlema"></p>
+
+    <div class="radar-box" id="radarbox"></div>
+
+    <div class="bars" id="rbars"></div>
+
+    <div class="card"><h3>Quem você é hoje</h3><p id="rdesc"></p></div>
+    <div class="card"><h3>Sua força</h3><p id="rforca"></p></div>
+    <div class="card"><h3>Seu risco</h3><p id="rrisco"></p></div>
+    <div class="card"><h3>Primeiro passo</h3><p id="rpasso"></p></div>
+
+    <div class="actions">
+      <button class="btn-secondary" onclick="shareCard()">Compartilhar meu resultado</button>
+    </div>
+
+    <div class="cta-box">
+      <h2 class="serif">Destrave seu Plano de Liderança Pós-IA</h2>
+      <p style="font-size:.92rem;color:var(--mist)">O diagnóstico mostra onde você está. O Plano mostra como avançar:</p>
+      <ul>
+        <li>Análise completa e personalizada dos seus três pilares</li>
+        <li>Plano de 21 dias com a bússola ESAON aplicada à sua realidade</li>
+        <li>Filtro de decisão UNO para suas prioridades da semana</li>
+        <li>Capítulos do livro recomendados para cada gap identificado</li>
+      </ul>
+      <button class="btn-primary" onclick="goStripe()">Quero meu Plano completo</button>
+      <p class="price-line">Acesso imediato por <strong>R$ 67</strong> · pagamento único e seguro via Stripe</p>
+    </div>
+
+    <p class="book-line">Prefira começar pela base: conheça o livro <a href="https://triadedanovalideranca.com.br" target="_blank" rel="noopener">A Tríade da Nova Liderança, Pós-IA</a></p>
+  </div>
+</section>
+
+<footer>© 2026 Arthur Alvarez · A Tríade da Nova Liderança, Pós-IA</footer>
+
+<script>
+/* ================= CONFIGURAÇÃO =================
+   Edite apenas estas três linhas antes de publicar. */
+const CONFIG = {
+  STRIPE_LINK: "",   // Cole aqui seu Stripe Payment Link, ex: "https://buy.stripe.com/xxxx"
+  LEADS_WEBHOOK: "", // Cole aqui a URL do seu Google Apps Script (POST) para captura de leads
+  APP_URL: "https://triadedanovalideranca.com.br/diagnostico"
+};
+/* ================================================ */
+
+const PILLARS = {
+  A: { nome: "Autoliderança", cor: "#A9CFEC" },
+  I: { nome: "Intenção",      cor: "#B9C3CC" },
+  T: { nome: "Tecnologia",    cor: "#D98B5F" }
+};
+
+const QUESTIONS = [
+  { p:"A", t:"Eu sei nomear com precisão minhas três maiores forças e minhas três maiores fragilidades como líder." },
+  { p:"I", t:"Minha agenda da semana reflete minhas prioridades reais, não as urgências dos outros." },
+  { p:"T", t:"Eu uso inteligência artificial toda semana em tarefas reais do meu trabalho." },
+  { p:"A", t:"Quando recebo um feedback duro, eu o examino antes de me defender." },
+  { p:"I", t:"Eu digo não, sem culpa, quando o pedido não serve ao que é essencial." },
+  { p:"T", t:"Eu sei explicar para minha equipe onde a IA agrega valor e onde ela não substitui o humano." },
+  { p:"A", t:"Eu reconheço meus padrões de autossabotagem no momento em que eles aparecem." },
+  { p:"I", t:"Tenho rituais diários que sustentam minha consistência, mesmo sob pressão." },
+  { p:"T", t:"Eu me atualizo de forma deliberada sobre tecnologias que afetam meu setor." },
+  { p:"A", t:"Meu propósito como líder está claro o suficiente para caber em uma frase." },
+  { p:"I", t:"Antes de decidir, eu avalio se o tema é urgente, necessário ou oportuno." },
+  { p:"T", t:"Eu já redesenhei pelo menos um processo do meu negócio usando IA." },
+  { p:"A", t:"Eu consigo separar quem eu sou do cargo que ocupo." },
+  { p:"I", t:"Minhas ações no dia a dia confirmam o líder que eu digo que sou." },
+  { p:"T", t:"Sinto mais curiosidade do que ameaça quando uma nova tecnologia aparece." }
+];
+
+const SCALE = [
+  { v:1, t:"Discordo totalmente" },
+  { v:2, t:"Discordo em parte" },
+  { v:3, t:"Nem concordo, nem discordo" },
+  { v:4, t:"Concordo em parte" },
+  { v:5, t:"Concordo totalmente" }
+];
+
+/* Arquétipos: chave = A/I/T altos (1) ou em construção (0). Corte: 70%. */
+const ARCHETYPES = {
+  "111": { nome:"O Líder Tríade", lema:"Você é a bússola que aponta o norte para os outros.",
+    desc:"Você integra autoconhecimento, ação intencional e domínio tecnológico. É o perfil mais raro: o líder que a era pós-IA procura e ainda não encontra em escala.",
+    forca:"Equilíbrio. Você decide a partir de quem é, age com consistência e usa a tecnologia como alavanca, não como muleta.",
+    risco:"A zona de conforto da maestria. Quem chega ao topo de um ciclo tende a parar de subir. Seu próximo desafio é multiplicar líderes, não apenas liderar.",
+    passo:"Releia o Capítulo 15 e use a ESAON como ferramenta de mentoria: ajude um liderado a navegar a própria bússola." },
+  "110": { nome:"O Comandante Analógico", lema:"Sua liderança é sólida. Seu futuro ainda não.",
+    desc:"Você se conhece e age com intenção, mas a tecnologia avança mais rápido do que sua adaptação. O pilar humano está firme. O pilar do futuro está descoberto.",
+    forca:"Credibilidade. Sua equipe confia em você porque sua palavra e sua ação caminham juntas.",
+    risco:"Obsolescência silenciosa. Em 24 meses, líderes com metade da sua experiência e o dobro da sua fluência em IA vão disputar o seu espaço.",
+    passo:"Escolha um processo real do seu negócio e redesenhe com IA esta semana. Comece pequeno, mas comece agora." },
+  "101": { nome:"O Visionário Sem Ritual", lema:"Você enxerga longe. Seus dias não acompanham.",
+    desc:"Autoconhecimento alto, fluência tecnológica alta, mas a execução diária escapa. Você sabe quem é e para onde vai. O caminho entre os dois é que se perde na rotina.",
+    forca:"Visão. Você conecta quem você é com o que está por vir, algo que pouquíssimos líderes conseguem.",
+    risco:"A intenção sem ritual vira frustração. Grandes planos adiados corroem, aos poucos, a sua autoridade e a sua autoconfiança.",
+    passo:"Aplique os três pilares do Capítulo 5: Clareza, Prioridade e Ritual. Um único ritual inegociável por 21 dias." },
+  "011": { nome:"O Executor Acelerado", lema:"Você corre rápido. Para onde, exatamente?",
+    desc:"Você age com disciplina e domina ferramentas, mas o espelho está embaçado. Decisões rápidas sem autoconhecimento profundo tendem a repetir os mesmos erros com mais eficiência.",
+    forca:"Entrega. Você transforma planos em movimento e tecnologia em resultado.",
+    risco:"Liderar no piloto automático. Sem clareza sobre seus sabotadores e seu propósito, a velocidade amplifica os desvios.",
+    passo:"Pare diante do Efeito Espelho do Capítulo 2. Peça três feedbacks duros esta semana e apenas escute." },
+  "100": { nome:"O Espelho Parado", lema:"Você se conhece. O mundo ainda não percebeu.",
+    desc:"Seu autoconhecimento é real, mas não virou comportamento nem se conectou ao novo cenário tecnológico. Você é profundo no pensar e tímido no agir.",
+    forca:"Consciência. Você não se engana sobre quem é, e isso é mais raro do que parece.",
+    risco:"Virar conselheiro de um jogo que você não joga. Conhecimento sem ação não constrói legado.",
+    passo:"O Capítulo 7 te espera: a Escolha do Sim. Assuma um compromisso público e inadiável nos próximos 7 dias." },
+  "010": { nome:"O Disciplinado no Escuro", lema:"Sua execução é forte. Sua direção, emprestada.",
+    desc:"Você cumpre, entrega e mantém o ritmo, mas sem clareza interna e sem leitura do futuro. Trabalha muito, na agenda dos outros, com as ferramentas de ontem.",
+    forca:"Consistência. Poucos sustentam o ritmo que você sustenta.",
+    risco:"Eficiência na direção errada. A Matriz de Eisenhower te diria: você domina o urgente e negligencia o importante.",
+    passo:"Antes de otimizar a rota, defina o destino. Capítulo 3: a Descoberta do Propósito. Escreva sua frase de propósito." },
+  "001": { nome:"O Encantado pela Máquina", lema:"Você domina as ferramentas. Falta dominar a si.",
+    desc:"Fluência tecnológica acima da média, mas sem a base humana que transforma ferramenta em liderança. A IA amplifica quem você é. A pergunta é: quem você é?",
+    forca:"Fluência. Você fala a língua do futuro e aprende rápido.",
+    risco:"Ser confundido com a ferramenta. Tecnologia sem autoliderança gera operadores impressionantes, não líderes.",
+    passo:"Comece pelo Capítulo 1, a Convocação, e pelo 6, o Sabotador Interno. A jornada começa para dentro." },
+  "000": { nome:"O Convocado", lema:"Toda grande jornada começa com uma convocação. A sua chegou.",
+    desc:"Os três pilares estão em construção, e isso não é uma sentença: é um ponto de partida honesto. Você está exatamente onde os quatro protagonistas da Tríade estavam no Capítulo 1.",
+    forca:"Potencial sem vícios. Quem começa consciente do gap avança mais rápido do que quem se acha pronto.",
+    risco:"Adiar. Cada mês sem ação aumenta a distância entre você e a liderança que o mercado já exige.",
+    passo:"Aceite a Convocação do Capítulo 1. Reserve 20 minutos por dia, por 21 dias, para sua jornada na Tríade." }
+};
+
+/* ================= ESTADO ================= */
+let idx = 0;
+const answers = [];
+let lead = { nome:"", email:"" };
+
+function show(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo({top:0,behavior:'instant'});
+}
+
+function startQuiz(){ idx=0; answers.length=0; show('quiz'); renderQ(); }
+
+function renderQ(){
+  const q = QUESTIONS[idx];
+  const pl = PILLARS[q.p];
+  document.getElementById('pfill').style.width = ((idx)/QUESTIONS.length*100)+'%';
+  document.getElementById('pnum').textContent = (idx+1)+' / '+QUESTIONS.length;
+  const body = document.getElementById('qbody');
+  body.innerHTML = `
+    <div class="fade-in">
+      <span class="pillar-tag"><span class="pillar-dot" style="background:${pl.cor}"></span>Pilar: ${pl.nome}</span>
+      <p class="question">${q.t}</p>
+      <div class="likert">
+        ${SCALE.map(s=>`<button onclick="answer(${s.v})"><span class="dot"></span>${s.t}</button>`).join('')}
+      </div>
+      ${idx>0?'<button class="back-link" onclick="goBack()">Voltar à pergunta anterior</button>':''}
+    </div>`;
+}
+
+function answer(v){
+  answers[idx]=v;
+  if(idx < QUESTIONS.length-1){ idx++; renderQ(); }
+  else{ document.getElementById('pfill').style.width='100%'; show('lead'); }
+}
+
+function goBack(){ if(idx>0){ idx--; renderQ(); } }
+
+/* ================= LEAD ================= */
+function submitLead(){
+  const n = document.getElementById('lname').value.trim();
+  const e = document.getElementById('lemail').value.trim();
+  const ok = n.length>=2 && /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(e);
+  document.getElementById('lerr').style.display = ok?'none':'block';
+  if(!ok) return;
+  lead = { nome:n, email:e };
+  const r = computeResult();
+  if(CONFIG.LEADS_WEBHOOK){
+    fetch(CONFIG.LEADS_WEBHOOK, {
+      method:'POST', mode:'no-cors',
+      headers:{'Content-Type':'text/plain'},
+      body: JSON.stringify({ tipo:'lead', nome:n, email:e, arquetipo:r.arch.nome,
+        autolideranca:r.pct.A, intencao:r.pct.I, tecnologia:r.pct.T,
+        data:new Date().toISOString() })
+    }).catch(()=>{});
+  }
+  try{ localStorage.setItem('triade_resultado', JSON.stringify({
+    nome:n, arquetipo:r.arch.nome, pct:r.pct, data:new Date().toISOString()
+  })); }catch(e){}
+  renderResult(r);
+  show('result');
+}
+
+/* ================= RESULTADO ================= */
+function computeResult(){
+  const sum = {A:0,I:0,T:0};
+  QUESTIONS.forEach((q,i)=>{ sum[q.p]+= (answers[i]||3); });
+  const pct = {};
+  for(const k of ['A','I','T']) pct[k] = Math.round((sum[k]-5)/20*100);
+  const key = ['A','I','T'].map(k=>pct[k]>=70?'1':'0').join('');
+  return { pct, arch: ARCHETYPES[key] };
+}
+
+let lastResult = null;
+
+function renderResult(r){
+  lastResult = r;
+  document.getElementById('rname').textContent = r.arch.nome;
+  document.getElementById('rlema').textContent = r.arch.lema;
+  document.getElementById('rdesc').textContent = r.arch.desc;
+  document.getElementById('rforca').textContent = r.arch.forca;
+  document.getElementById('rrisco').textContent = r.arch.risco;
+  document.getElementById('rpasso').textContent = r.arch.passo;
+
+  document.getElementById('radarbox').innerHTML = triangleSVG(r.pct, 300);
+
+  document.getElementById('rbars').innerHTML = ['A','I','T'].map(k=>`
+    <div class="bar-row">
+      <div class="bar-head"><span style="color:${PILLARS[k].cor}">${PILLARS[k].nome}</span><span class="pct">${r.pct[k]}%</span></div>
+      <div class="bar-track"><div class="bar-fill" data-w="${r.pct[k]}" style="background:${PILLARS[k].cor}"></div></div>
+    </div>`).join('');
+
+  requestAnimationFrame(()=>requestAnimationFrame(()=>{
+    document.querySelectorAll('.bar-fill').forEach(b=>b.style.width=b.dataset.w+'%');
+  }));
+}
+
+/* Radar triangular: assinatura visual da Tríade */
+function trianglePoints(cx, cy, R, vals){
+  // vértices a 90° (topo), 210°, 330°
+  const ang = [-90, 150, 30].map(a=>a*Math.PI/180);
+  return vals.map((v,i)=>{
+    const rr = R * Math.max(v,4)/100;
+    return [cx + rr*Math.cos(ang[i]), cy + rr*Math.sin(ang[i])];
+  });
+}
+function triangleSVG(pct, size){
+  const cx=size/2, cy=size/2+12, R=size*0.40;
+  const grid = [100,66,33].map(g=>{
+    const p = trianglePoints(cx,cy,R,[g,g,g]).map(p=>p.join(',')).join(' ');
+    return `<polygon points="${p}" fill="none" stroke="#26405C" stroke-width="1"/>`;
+  }).join('');
+  const axes = trianglePoints(cx,cy,R,[100,100,100]).map(p=>
+    `<line x1="${cx}" y1="${cy}" x2="${p[0]}" y2="${p[1]}" stroke="#26405C" stroke-width="1"/>`).join('');
+  const data = trianglePoints(cx,cy,R,[pct.A,pct.I,pct.T]).map(p=>p.join(',')).join(' ');
+  const verts = trianglePoints(cx,cy,R,[100,100,100]);
+  const lbl = [
+    {t:'AUTOLIDERANÇA', c:PILLARS.A.cor, x:verts[0][0], y:verts[0][1]-14, a:'middle'},
+    {t:'INTENÇÃO',      c:PILLARS.I.cor, x:verts[1][0]-6, y:verts[1][1]+22, a:'middle'},
+    {t:'TECNOLOGIA',    c:PILLARS.T.cor, x:verts[2][0]+6, y:verts[2][1]+22, a:'middle'}
+  ].map(l=>`<text x="${l.x}" y="${l.y}" text-anchor="${l.a}" font-size="11" font-weight="600" letter-spacing="1.5" fill="${l.c}" font-family="Inter,sans-serif">${l.t}</text>`).join('');
+  return `<svg width="${size}" height="${size+10}" viewBox="0 0 ${size} ${size+10}" role="img" aria-label="Mapa dos três pilares">
+    ${grid}${axes}
+    <polygon points="${data}" fill="rgba(201,161,78,.22)" stroke="#C9A14E" stroke-width="2.5" stroke-linejoin="round"/>
+    ${lbl}
+  </svg>`;
+}
+
+/* ================= COMPARTILHAR ================= */
+async function shareCard(){
+  if(!lastResult) return;
+  const blob = await buildCardPNG(lastResult);
+  const file = new File([blob], 'meu-diagnostico-trade.png', {type:'image/png'});
+  const txt = `Meu arquétipo de liderança pós-IA: ${lastResult.arch.nome}. Descubra o seu em 3 minutos: ${CONFIG.APP_URL}`;
+  if(navigator.canShare && navigator.canShare({files:[file]})){
+    try{ await navigator.share({files:[file], text:txt, title:'Diagnóstico do Líder Pós-IA'}); return; }catch(e){}
+  }
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'meu-diagnostico-triade.png';
+  a.click();
+}
+
+function buildCardPNG(r){
+  return new Promise(res=>{
+    const W=1080,H=1350;
+    const c=document.createElement('canvas'); c.width=W; c.height=H;
+    const x=c.getContext('2d');
+    // fundo azul profundo + brilho
+    x.fillStyle='#0B1B2B'; x.fillRect(0,0,W,H);
+    const g=x.createRadialGradient(W/2,-100,50,W/2,-100,900);
+    g.addColorStop(0,'rgba(201,161,78,.16)'); g.addColorStop(1,'rgba(201,161,78,0)');
+    x.fillStyle=g; x.fillRect(0,0,W,H);
+    // eyebrow
+    x.fillStyle='#C9A14E'; x.font='600 30px Inter,sans-serif'; x.textAlign='center';
+    x.fillText('D I A G N Ó S T I C O   D O   L Í D E R   P Ó S - I A', W/2, 120);
+    // nome do usuário
+    x.fillStyle='#8FA3B5'; x.font='400 34px Inter,sans-serif';
+    x.fillText(lead.nome ? lead.nome+', seu arquétipo é' : 'Meu arquétipo é', W/2, 200);
+    // arquétipo
+    x.fillStyle='#E0C285'; x.font='700 84px Fraunces,Georgia,serif';
+    wrapText(x, r.arch.nome, W/2, 300, 940, 92);
+    // triângulo
+    drawTriangle(x, W/2, 760, 280, r.pct);
+    // percentuais
+    const cols=[['AUTOLIDERANÇA',r.pct.A,'#A9CFEC'],['INTENÇÃO',r.pct.I,'#B9C3CC'],['TECNOLOGIA',r.pct.T,'#D98B5F']];
+    cols.forEach((cl,i)=>{
+      const xx = W/2 + (i-1)*320;
+      x.fillStyle=cl[2]; x.font='700 64px Inter,sans-serif'; x.fillText(cl[1]+'%', xx, 1135);
+      x.font='600 24px Inter,sans-serif'; x.fillText(cl[0], xx, 1175);
+    });
+    // rodapé
+    x.fillStyle='#8FA3B5'; x.font='400 28px Inter,sans-serif';
+    x.fillText('Descubra o seu em 3 minutos', W/2, 1255);
+    x.fillStyle='#C9A14E'; x.font='600 30px Inter,sans-serif';
+    x.fillText(CONFIG.APP_URL.replace('https://',''), W/2, 1300);
+    c.toBlob(res,'image/png');
+  });
+}
+
+function wrapText(x, text, cx, y, maxW, lh){
+  const words=text.split(' '); let line=''; let yy=y;
+  for(const w of words){
+    const t=line?line+' '+w:w;
+    if(x.measureText(t).width>maxW && line){ x.fillText(line,cx,yy); line=w; yy+=lh; }
+    else line=t;
+  }
+  x.fillText(line,cx,yy);
+}
+
+function drawTriangle(x, cx, cy, R, pct){
+  const ang=[-90,150,30].map(a=>a*Math.PI/180);
+  const pt=(r,i)=>[cx+R*(Math.max(r,4)/100)*Math.cos(ang[i]), cy+R*(Math.max(r,4)/100)*Math.sin(ang[i])];
+  [100,66,33].forEach(g=>{
+    x.beginPath();
+    [0,1,2].forEach((i)=>{const p=pt(g,i); i?x.lineTo(p[0],p[1]):x.moveTo(p[0],p[1]);});
+    x.closePath(); x.strokeStyle='#26405C'; x.lineWidth=2; x.stroke();
+  });
+  [0,1,2].forEach(i=>{const p=pt(100,i); x.beginPath(); x.moveTo(cx,cy); x.lineTo(p[0],p[1]); x.stroke();});
+  const vals=[pct.A,pct.I,pct.T];
+  x.beginPath();
+  vals.forEach((v,i)=>{const p=pt(v,i); i?x.lineTo(p[0],p[1]):x.moveTo(p[0],p[1]);});
+  x.closePath();
+  x.fillStyle='rgba(201,161,78,.25)'; x.fill();
+  x.strokeStyle='#C9A14E'; x.lineWidth=5; x.lineJoin='round'; x.stroke();
+}
+
+/* ================= STRIPE ================= */
+function goStripe(){
+  if(CONFIG.STRIPE_LINK){ window.open(CONFIG.STRIPE_LINK,'_blank'); }
+  else{ alert('Configure seu Stripe Payment Link na constante CONFIG no topo do código.'); }
+}
+</script>
+</body>
+</html>

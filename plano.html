@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Plano de Liderança Pós-IA | A Tríade da Nova Liderança</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#0B1B2B; --ink-2:#10243A; --ink-3:#16304C;
+  --brass:#C9A14E; --brass-soft:#E0C285;
+  --sand:#EFE7D3; --mist:#8FA3B5;
+  --quartzo:#A9CFEC; --granito:#B9C3CC; --argila:#D98B5F;
+  --ok:#7FC8A9; --radius:18px; --maxw:680px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Inter',system-ui,sans-serif;background:var(--ink);color:var(--sand);min-height:100vh;line-height:1.6;
+  background-image:radial-gradient(ellipse 120% 50% at 50% -10%, rgba(201,161,78,.10), transparent 60%);}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 22px}
+h1,h2,h3,.serif{font-family:'Fraunces',serif}
+.eyebrow{font-size:.74rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--brass);margin-bottom:14px}
+button{font-family:inherit;cursor:pointer;border:none}
+button:focus-visible,input:focus-visible{outline:2px solid var(--brass);outline-offset:3px}
+.screen{display:none;min-height:100vh;flex-direction:column}
+.screen.active{display:flex}
+.fade-in{animation:fade .5s ease both}
+@keyframes fade{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.fade-in{animation:none}}
+
+/* GATE */
+#gate{justify-content:center;text-align:center;padding:48px 0}
+#gate h1{font-size:clamp(1.8rem,7vw,2.6rem);font-weight:700;line-height:1.15;margin-bottom:14px}
+#gate .sub{color:var(--mist);max-width:440px;margin:0 auto 30px;font-size:.98rem}
+.token-input{width:100%;max-width:380px;margin:0 auto;display:block;background:var(--ink-2);
+  border:1px solid var(--ink-3);border-radius:14px;padding:16px;color:var(--sand);
+  font-size:1.05rem;text-align:center;letter-spacing:.08em;font-weight:600;text-transform:uppercase}
+.token-input::placeholder{color:#5E7286;letter-spacing:.04em;font-weight:400;text-transform:none}
+.btn-primary{background:var(--brass);color:var(--ink);font-weight:700;font-size:1rem;
+  padding:16px 36px;border-radius:999px;width:100%;max-width:380px;margin:18px auto 0;display:block;
+  box-shadow:0 6px 24px rgba(201,161,78,.28)}
+.btn-primary:disabled{opacity:.55;cursor:wait}
+.err{color:#E8A2A2;font-size:.85rem;margin-top:14px;display:none}
+.gate-help{font-size:.8rem;color:var(--mist);margin-top:26px}
+.gate-help a{color:var(--brass-soft)}
+
+/* PLANO */
+#plano{padding:40px 0 60px}
+.plan-head{text-align:center;margin-bottom:30px}
+.plan-head h1{font-size:clamp(1.9rem,7vw,2.7rem);font-weight:700;color:var(--brass-soft);line-height:1.12;margin-bottom:8px}
+.plan-head .who{color:var(--mist);font-size:.95rem}
+.foco{background:var(--ink-2);border:1px solid rgba(201,161,78,.2);border-radius:var(--radius);
+  padding:20px;margin-bottom:26px;font-size:.95rem}
+.foco strong{color:var(--brass)}
+.progress-line{display:flex;align-items:center;gap:12px;margin-bottom:26px}
+.progress-track{flex:1;height:6px;background:var(--ink-3);border-radius:99px;overflow:hidden}
+.progress-fill{height:100%;background:var(--ok);border-radius:99px;transition:width .3s ease}
+.progress-txt{font-size:.8rem;color:var(--mist);font-variant-numeric:tabular-nums;white-space:nowrap}
+.esaon-legend{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:30px;justify-content:center}
+.esaon-legend span{font-size:.68rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;
+  border:1px solid var(--ink-3);border-radius:99px;padding:5px 12px;color:var(--mist)}
+.esaon-legend b{color:var(--brass-soft);font-weight:700}
+.week{margin-bottom:14px;border:1px solid var(--ink-3);border-radius:var(--radius);overflow:hidden;background:var(--ink-2)}
+.week-head{width:100%;background:none;color:var(--sand);display:flex;justify-content:space-between;
+  align-items:center;padding:18px 20px;text-align:left;gap:12px}
+.week-head .wk-title{font-family:'Fraunces',serif;font-size:1.1rem;font-weight:600}
+.week-head .wk-sub{font-size:.78rem;color:var(--mist);display:block;font-family:'Inter',sans-serif;font-weight:400}
+.week-head .chev{transition:transform .2s ease;color:var(--brass);flex-shrink:0}
+.week.open .chev{transform:rotate(180deg)}
+.week-body{display:none;padding:0 14px 14px}
+.week.open .week-body{display:block}
+.day{display:flex;gap:12px;align-items:flex-start;background:var(--ink);border:1px solid var(--ink-3);
+  border-radius:12px;padding:13px 14px;margin-bottom:8px}
+.day input{width:20px;height:20px;accent-color:var(--ok);margin-top:3px;flex-shrink:0;cursor:pointer}
+.day.done .day-txt{opacity:.45;text-decoration:line-through}
+.day-meta{font-size:.66rem;font-weight:700;letter-spacing:.08em;color:var(--brass);text-transform:uppercase;margin-bottom:2px}
+.day-txt{font-size:.9rem}
+.uno-box{margin-top:30px;background:linear-gradient(160deg,var(--ink-3),var(--ink-2));
+  border:1px solid rgba(201,161,78,.3);border-radius:var(--radius);padding:22px}
+.uno-box h3{color:var(--brass);font-size:1.05rem;margin-bottom:10px}
+.uno-box p{font-size:.9rem;margin-bottom:8px}
+.uno-box em{color:var(--brass-soft);font-style:normal;font-weight:600}
+.book-line{text-align:center;font-size:.85rem;color:var(--mist);margin-top:34px}
+.book-line a{color:var(--brass-soft)}
+footer{text-align:center;font-size:.74rem;color:#5E7286;padding:30px 0 40px}
+.no-result{background:var(--ink-2);border:1px solid var(--ink-3);border-radius:var(--radius);padding:20px;margin-bottom:24px;text-align:center}
+.no-result select{width:100%;max-width:380px;background:var(--ink);border:1px solid var(--ink-3);
+  border-radius:12px;padding:13px;color:var(--sand);font-size:.95rem;margin-top:12px;font-family:inherit}
+</style>
+</head>
+<body>
+
+<!-- ===== TRAVA ===== -->
+<section id="gate" class="screen active">
+  <div class="wrap fade-in">
+    <p class="eyebrow">Acesso exclusivo</p>
+    <h1>Plano de Liderança Pós-IA</h1>
+    <p class="sub">Insira o token de acesso que você recebeu por e-mail após a confirmação do pagamento.</p>
+    <input class="token-input" id="tk" placeholder="PLANO-2026-XXXXX" autocomplete="off">
+    <button class="btn-primary" id="btnvalidar" onclick="validar()">Acessar meu plano</button>
+    <p class="err" id="gerr">Token não reconhecido. Confira o e-mail de confirmação ou fale conosco.</p>
+    <p class="gate-help">Pagou e não recebeu o token? Verifique o spam ou escreva para <a href="mailto:contato@triadedanovalideranca.com.br">contato@triadedanovalideranca.com.br</a></p>
+  </div>
+</section>
+
+<!-- ===== PLANO ===== -->
+<section id="plano" class="screen">
+  <div class="wrap fade-in">
+    <p class="eyebrow" style="text-align:center">Seu plano de 21 dias</p>
+    <div class="plan-head">
+      <h1 id="ph-arch"></h1>
+      <p class="who" id="ph-who"></p>
+    </div>
+
+    <div class="no-result" id="noresult" style="display:none">
+      <p style="font-size:.9rem">Não encontrei seu diagnóstico neste dispositivo. Selecione seu arquétipo:</p>
+      <select id="archsel" onchange="manualArch(this.value)">
+        <option value="">Escolha seu arquétipo</option>
+      </select>
+    </div>
+
+    <div class="foco" id="ph-foco"></div>
+
+    <div class="progress-line">
+      <div class="progress-track"><div class="progress-fill" id="prog"></div></div>
+      <span class="progress-txt" id="progtxt">0 de 21 dias</span>
+    </div>
+
+    <div class="esaon-legend">
+      <span><b>E</b>stacione</span><span><b>S</b>ente</span><span><b>A</b>limente</span><span><b>O</b>riente</span><span><b>N</b>avegue</span>
+    </div>
+
+    <div id="weeks"></div>
+
+    <div class="uno-box">
+      <h3 class="serif">Ritual UNO de segunda-feira</h3>
+      <p>Toda segunda, antes de abrir a agenda, passe suas 5 principais demandas pelo filtro:</p>
+      <p><em>Urgente?</em> Se eu não agir hoje, há perda real?</p>
+      <p><em>Necessário?</em> Isso sustenta o essencial do negócio e da equipe?</p>
+      <p><em>Oportuno?</em> Este é o melhor momento, ou apenas o mais barulhento?</p>
+      <p style="margin-top:10px;color:var(--mist);font-size:.84rem">O que não passa em nenhum dos três filtros sai da semana. Sem culpa.</p>
+    </div>
+
+    <p class="book-line">Aprofunde cada fase no livro <a href="https://triadedanovalideranca.com.br" target="_blank" rel="noopener">A Tríade da Nova Liderança, Pós-IA</a></p>
+  </div>
+</section>
+
+<footer>© 2026 Arthur Alvarez · A Tríade da Nova Liderança, Pós-IA</footer>
+
+<script>
+/* ================= CONFIGURAÇÃO ================= */
+const CONFIG = {
+  VALIDAR_URL: "" // Cole aqui a URL do Apps Script (a mesma do diagnóstico). Vazio = modo teste, aceita o token TESTE-2026
+};
+/* ================================================ */
+
+const FASE = d => d<=4?'Estacione':d<=8?'Sente':d<=12?'Alimente':d<=16?'Oriente':'Navegue';
+
+const PLANOS = {
+"O Líder Tríade": {
+  foco:"Seu plano não é de correção, é de multiplicação. Em 21 dias, você transforma sua maestria individual em sistema: mentoria, sucessão e escala com IA.",
+  semanas:["Do líder ao mentor","Sistematize o que você sabe","Multiplique com tecnologia"],
+  dias:[
+  "Estacione: bloqueie 30 minutos e escreva quais partes da sua liderança hoje dependem só de você.",
+  "Liste 3 pessoas da sua equipe com potencial de liderança e o gap principal de cada uma.",
+  "Observe suas reuniões de hoje: quantas decisões você tomou que outro poderia ter tomado?",
+  "Identifique o conhecimento mais valioso que está apenas na sua cabeça.",
+  "Sente: perceba o desconforto de delegar decisões importantes. Nomeie esse sentimento por escrito.",
+  "Pergunte a um liderado como ele se sente ao decidir sem você. Apenas escute.",
+  "Registre qual parte do seu papel você teme perder ao formar sucessores.",
+  "Releia suas anotações da semana e escreva uma frase: o que a equipe precisa que eu solte?",
+  "Alimente: releia o Capítulo 15 do livro com olhos de mentor, não de aprendiz.",
+  "Estude um caso de sucessão bem-feita no seu setor e anote 2 práticas aplicáveis.",
+  "Documente seu processo de decisão mais usado em um roteiro de 5 passos.",
+  "Grave um áudio de 3 minutos ensinando esse roteiro como se fosse para seu sucessor.",
+  "Oriente: aplique o filtro UNO na sua agenda e transfira 2 demandas para liderados, com autonomia real.",
+  "Defina com cada um dos 3 potenciais líderes uma decisão que passa a ser deles.",
+  "Estabeleça seu ritual de mentoria: 30 minutos semanais com cada um, data marcada.",
+  "Decida qual processo do negócio será redesenhado com IA pela equipe, não por você.",
+  "Navegue: conduza a primeira sessão de mentoria usando a ESAON como roteiro de conversa.",
+  "Peça que um liderado use IA para preparar a análise de uma decisão e apresente a você.",
+  "Saia de uma reunião que você sempre liderou e deixe um sucessor conduzir.",
+  "Avalie com a equipe o processo redesenhado com IA: o que melhorou, o que ajustar.",
+  "Feche o ciclo: escreva sua carta de legado, o líder que você forma quando não está na sala."]
+},
+"O Comandante Analógico": {
+  foco:"Sua base humana é sólida. Estes 21 dias atacam um único alvo: transformar a tecnologia de ameaça distante em ferramenta diária, sem perder sua essência.",
+  semanas:["Desarme a resistência","Mão na ferramenta","IA no seu negócio"],
+  dias:[
+  "Estacione: escreva sem filtro o que você realmente pensa e teme sobre IA. Seja honesto.",
+  "Liste 3 tarefas suas da semana que são repetitivas e consomem mais de 1 hora.",
+  "Pergunte a 2 pessoas mais jovens da equipe como elas já usam IA no trabalho.",
+  "Observe seu setor: identifique 1 concorrente que já usa IA visivelmente.",
+  "Sente: nomeie a emoção dominante quando o assunto é tecnologia. Medo, tédio, soberba?",
+  "Lembre de outra habilidade que você dominou tarde na vida. Como começou?",
+  "Escreva o custo real de não aprender: o que você perde em 12 meses parado?",
+  "Releia a semana e complete: minha resistência à tecnologia protege-me de ____.",
+  "Alimente: crie uma conta em uma ferramenta de IA generativa e converse 15 minutos com ela.",
+  "Peça à IA para resumir um documento real do seu trabalho. Compare com sua leitura.",
+  "Use IA para preparar a pauta da sua próxima reunião. Avalie o resultado.",
+  "Assista a um tutorial de 20 minutos sobre IA aplicada ao seu setor específico.",
+  "Oriente: escolha pelo filtro UNO qual das 3 tarefas repetitivas será delegada à IA primeiro.",
+  "Defina seu ritual mínimo: 20 minutos diários de uso real de IA, horário fixo.",
+  "Decida 1 processo do negócio que será redesenhado com IA em 60 dias. Dê nome e prazo.",
+  "Comunique à equipe sua decisão. Liderar a mudança começa por anunciá-la.",
+  "Navegue: execute a primeira tarefa completa com apoio de IA, do início ao fim.",
+  "Ensine a um par da sua geração algo que você aprendeu sobre IA esta semana.",
+  "Use IA para analisar um problema real do negócio e leve o insight para uma decisão.",
+  "Inicie o redesenho do processo escolhido: primeiro rascunho com apoio da ferramenta.",
+  "Feche o ciclo: compare seu texto do dia 1 com sua prática de hoje. Escreva o que mudou."]
+},
+"O Visionário Sem Ritual": {
+  foco:"Visão você tem de sobra. Estes 21 dias constroem a ponte que falta: Clareza, Prioridade e Ritual, os três pilares do Capítulo 5, aplicados sem anestesia.",
+  semanas:["Clareza: do sonho ao alvo","Prioridade: o corte corajoso","Ritual: a consistência inegociável"],
+  dias:[
+  "Estacione: liste todos os projetos e ideias que você carrega hoje. Todos, sem editar.",
+  "Diante da lista, marque quantos avançaram de verdade nos últimos 90 dias.",
+  "Escolha o único projeto que, realizado, tornaria os outros mais fáceis ou irrelevantes.",
+  "Escreva esse projeto como alvo: o quê, até quando, como vou medir.",
+  "Sente: perceba o incômodo de abandonar ideias. Nomeie o que cada uma representa para você.",
+  "Identifique em que momento do dia sua energia de execução morre. O que acontece ali?",
+  "Escreva: o que eu ganho, secretamente, ao não concluir? Seja brutalmente honesto.",
+  "Releia a semana e escolha: visão admirada ou obra entregue? Declare por escrito.",
+  "Alimente: releia o Capítulo 5, a arquitetura da ação, marcando o que serve ao seu alvo.",
+  "Aplique a Matriz de Eisenhower nas suas tarefas de amanhã, por escrito.",
+  "Estude o método do Bloco Único e desenhe seu bloco diário de 90 minutos.",
+  "Use IA para quebrar seu alvo em 10 entregas pequenas e sequenciais.",
+  "Oriente: passe as 10 entregas pelo filtro UNO e ordene as 3 primeiras.",
+  "Marque na agenda os Blocos Únicos dos próximos 7 dias. Inegociáveis.",
+  "Defina sua regra de proteção: o que você dirá quando tentarem invadir o bloco.",
+  "Comunique a alguém de confiança seu alvo e seu prazo. Crie testemunha.",
+  "Navegue: execute o primeiro Bloco Único e conclua a entrega 1, mesmo imperfeita.",
+  "Execute a entrega 2. Ao terminar, registre: feito é melhor que perfeito?",
+  "Use IA para acelerar a entrega 3: rascunho, análise ou revisão.",
+  "Mostre as 3 entregas à sua testemunha e marque o próximo checkpoint.",
+  "Feche o ciclo: desenhe seu ritual permanente, o mínimo diário que sustenta o máximo anual."]
+},
+"O Executor Acelerado": {
+  foco:"Você não precisa de mais velocidade, precisa de espelho. Estes 21 dias desaceleram o suficiente para você enxergar seus padrões e voltar a acelerar, na direção certa.",
+  semanas:["O espelho sem desvio","Sabotadores e propósito","Velocidade com direção"],
+  dias:[
+  "Estacione: hoje, antes de cada decisão importante, espere 10 minutos. Anote o que sentiu.",
+  "Liste suas 3 últimas decisões erradas. Procure o padrão comum entre elas.",
+  "Pergunte a 3 pessoas: qual é o meu ponto cego como líder? Apenas anote.",
+  "Releia as respostas. Sublinhe o que se repetiu e o que mais doeu.",
+  "Sente: identifique qual crítica recebida gerou mais reação em você. Por que essa?",
+  "Observe hoje quando você interrompe pessoas. Conte. O número vai te surpreender.",
+  "Escreva: do que eu fujo quando encho a agenda? Responda em 5 linhas.",
+  "Complete por escrito: eu lidero rápido porque tenho medo de ____.",
+  "Alimente: releia o Capítulo 6 e identifique seu Sabotador dominante pelo modelo de Chamine.",
+  "Estude o Capítulo 2, o Efeito Espelho, e o modelo SCI de feedback.",
+  "Escreva sua frase de propósito: por que você lidera, em uma linha.",
+  "Use IA como espelho: descreva uma decisão difícil e peça os vieses presentes no seu raciocínio.",
+  "Oriente: aplique o filtro UNO antes de aceitar qualquer demanda nova esta semana.",
+  "Defina seu ritual de pausa: 10 minutos de silêncio antes de decisões acima de determinado impacto.",
+  "Escolha 1 comportamento do seu Sabotador para neutralizar com uma contramedida específica.",
+  "Decida o que você vai parar de fazer. Corte 1 compromisso recorrente que não passa no UNO.",
+  "Navegue: conduza uma reunião inteira sem interromper ninguém. Anote o efeito.",
+  "Peça feedback usando o modelo SCI a um liderado e agradeça sem se justificar.",
+  "Tome 1 decisão importante aplicando a pausa, o propósito e o filtro UNO juntos.",
+  "Compartilhe com a equipe 1 erro seu recente e o que aprendeu. Vulnerabilidade dirige.",
+  "Feche o ciclo: escreva a diferença entre o líder do dia 1 e o de hoje. Guarde para reler em 90 dias."]
+},
+"O Espelho Parado": {
+  foco:"Você já fez a parte difícil: conhece-se. Estes 21 dias convertem consciência em movimento, com a Escolha do Sim do Capítulo 7 como motor.",
+  semanas:["Do insight ao compromisso","O sim público","Movimento que não para"],
+  dias:[
+  "Estacione: liste tudo o que você sabe sobre si e ainda não virou ação. Sem julgamento.",
+  "Escolha da lista o item que mais incomoda permanecer parado.",
+  "Escreva o que aconteceria de bom se você agisse sobre ele em 30 dias.",
+  "Identifique a história que você conta para justificar a espera. Dê nome a ela.",
+  "Sente: perceba onde a paralisia mora no corpo quando você pensa em agir. Registre.",
+  "Lembre da última vez que agiu apesar do medo. O que tornou possível?",
+  "Escreva: qual aprovação eu espero antes de me mover? De quem?",
+  "Releia a semana e responda: o custo de continuar parado é maior que o de errar?",
+  "Alimente: releia o Capítulo 7 e a Fórmula do Compromisso Intencional.",
+  "Estude o Paradoxo da Escolha: excesso de opção paralisa. Reduza suas opções a 2.",
+  "Converse com alguém que já fez o que você quer fazer. Pergunte pelos primeiros 30 dias.",
+  "Use IA para mapear o passo a passo mínimo do seu movimento em 5 etapas.",
+  "Oriente: passe seu compromisso pelo filtro UNO e defina a data de início. Esta semana.",
+  "Escreva sua Escolha do Sim em uma frase: eu me comprometo a ____ até ____.",
+  "Torne público: comunique o compromisso a 3 pessoas que vão cobrar.",
+  "Elimine 1 obstáculo prático hoje: a inscrição, a ligação, o e-mail adiado.",
+  "Navegue: execute a etapa 1 do seu mapa. Pequena, concreta, hoje.",
+  "Execute a etapa 2 e registre a sensação de mover-se. Compare com a paralisia.",
+  "Conte às 3 testemunhas o que já andou. Peça que marquem o próximo checkpoint.",
+  "Execute a etapa 3 usando IA para acelerar o que for análise ou produção.",
+  "Feche o ciclo: o sim virou movimento. Escreva qual é o próximo sim, e quando começa."]
+},
+"O Disciplinado no Escuro": {
+  foco:"Sua disciplina é um motor potente rodando sem GPS. Estes 21 dias instalam a direção: propósito claro, prioridades suas e leitura do futuro.",
+  semanas:["Acenda a luz: propósito","Agenda sua, não dos outros","O futuro entra no mapa"],
+  dias:[
+  "Estacione: registre hoje, hora a hora, para quem foi cada bloco do seu dia.",
+  "Calcule: que percentual do dia serviu a prioridades definidas por você?",
+  "Liste o que você faria com 5 horas semanais devolvidas. Seja específico.",
+  "Releia o registro e marque as tarefas que só existem por hábito ou medo de dizer não.",
+  "Sente: perceba o que você sente ao imaginar decepcionar alguém dizendo não.",
+  "Escreva: trabalho tanto para provar o quê? Para quem?",
+  "Identifique qual conquista recente foi sua de verdade, e não apenas entrega para outros.",
+  "Releia a semana e complete: se nada mudar, em 5 anos eu serei ____.",
+  "Alimente: releia o Capítulo 3, a Descoberta do Propósito, fazendo os exercícios.",
+  "Escreva sua frase de propósito como líder. Refine até caber em uma linha.",
+  "Estude a Matriz de Eisenhower e classifique sua semana inteira nos 4 quadrantes.",
+  "Passe 30 minutos explorando como a IA já muda sua função no mercado. Anote 3 achados.",
+  "Oriente: monte a próxima semana a partir do propósito, não da caixa de entrada.",
+  "Aplique o filtro UNO nas demandas recebidas hoje. Recuse formalmente 1 que não passou.",
+  "Defina seu ritual de fronteira: horário em que o expediente termina, sem exceção esta semana.",
+  "Escolha 1 competência de futuro para desenvolver em 90 dias. Marque o primeiro passo.",
+  "Navegue: execute o primeiro dia da semana desenhada por você. Compare a energia.",
+  "Diga não a um pedido que não passa no UNO, com respeito e sem desculpas longas.",
+  "Use IA para automatizar ou acelerar 1 tarefa do quadrante urgente e não importante.",
+  "Dedique 1 hora à competência de futuro escolhida. Proteja como reunião com cliente.",
+  "Feche o ciclo: releia o registro do dia 1 e o de hoje. A agenda agora tem dono. Mantenha."]
+},
+"O Encantado pela Máquina": {
+  foco:"Você fala a língua do futuro. Estes 21 dias constroem o que a ferramenta não dá: autoconhecimento, propósito e a liderança humana que multiplica sua fluência técnica.",
+  semanas:["A Convocação: olhar para dentro","O Sabotador atrás da tela","Tecnologia a serviço de pessoas"],
+  dias:[
+  "Estacione: passe 1 dia inteiro anotando decisões que você terceirizou a ferramentas.",
+  "Escreva quem você é sem mencionar nenhuma tecnologia, cargo ou ferramenta. Difícil? Anote por quê.",
+  "Pergunte a 3 pessoas próximas: o que você admira em mim que não tem a ver com técnica?",
+  "Liste 3 situações recentes em que faltou conversa e sobrou ferramenta.",
+  "Sente: perceba o que você sente em interações humanas longas, sem tela. Nomeie.",
+  "Identifique quando a tecnologia vira esconderijo para você. De quê?",
+  "Escreva: o que eu evito sentir quando estou otimizando alguma coisa?",
+  "Releia a semana e complete: por trás da minha fluência técnica, existe um líder que ____.",
+  "Alimente: leia o Capítulo 1, a Convocação, como se fosse escrito para você. Porque foi.",
+  "Estude o Capítulo 6 e identifique seu Sabotador dominante pelo modelo de Chamine.",
+  "Aprenda o modelo SCI de feedback do Capítulo 2. Você vai usá-lo na semana 3.",
+  "Escreva sua frase de propósito: a serviço de quem está sua fluência técnica?",
+  "Oriente: aplique o filtro UNO nos seus projetos de tecnologia. Quantos servem a pessoas reais?",
+  "Escolha 1 projeto para reorientar: mesma técnica, impacto humano explícito.",
+  "Defina seu ritual de presença: 1 conversa diária de 15 minutos, sem celular na mesa.",
+  "Decida qual habilidade humana você vai treinar por 90 dias: escuta, feedback ou condução de conflito.",
+  "Navegue: dê 1 feedback presencial usando o modelo SCI. Olho no olho.",
+  "Conduza uma reunião onde você só pergunta e escuta. Nenhuma demonstração técnica.",
+  "Ensine algo de IA a alguém da equipe, medindo sucesso pela evolução da pessoa, não pela ferramenta.",
+  "Apresente o projeto reorientado destacando o impacto em pessoas, não a sofisticação técnica.",
+  "Feche o ciclo: escreva sua nova definição de quem você é. A máquina entra como instrumento, não como identidade."]
+},
+"O Convocado": {
+  foco:"Ponto de partida honesto é vantagem, não vergonha. Estes 21 dias percorrem a Tríade inteira em miniatura: um pilar por semana, no ritmo de quem constrói para durar.",
+  semanas:["Pilar 1: o espelho","Pilar 2: a intenção","Pilar 3: o futuro"],
+  dias:[
+  "Estacione: reserve 20 minutos de silêncio e escreva por que você aceitou esta convocação.",
+  "Liste 3 forças suas comprovadas por resultados e 3 fragilidades que já custaram caro.",
+  "Peça a 2 pessoas de confiança 1 feedback honesto sobre sua liderança. Apenas escute.",
+  "Escreva a história que você conta sobre si. Depois sublinhe o que é fato e o que é desculpa.",
+  "Sente: identifique a emoção mais frequente nos seus dias de trabalho. Dê nome.",
+  "Perceba qual situação de liderança mais drena você. O que ela toca?",
+  "Escreva: o líder que eu admiro tem ____. O quanto disso eu já pratico?",
+  "Releia a semana e escreva sua frase de propósito provisória. Pode ser imperfeita.",
+  "Alimente: leia os Capítulos 1 e 2 do livro. Faça os desafios propostos.",
+  "Estude a Matriz de Eisenhower e classifique seu dia de amanhã nos 4 quadrantes.",
+  "Aprenda o filtro UNO do Capítulo 13: Urgente, Necessário, Oportuno.",
+  "Converse 15 minutos com uma IA generativa sobre um desafio real seu. Primeira experiência conta.",
+  "Oriente: monte sua próxima semana com 1 prioridade definida por você, protegida na agenda.",
+  "Aplique o filtro UNO em todas as demandas de hoje. Registre o que não passou.",
+  "Defina 1 ritual diário mínimo: mesmos 20 minutos, mesmo horário, para sua evolução.",
+  "Escolha sua Escolha do Sim: 1 compromisso de 90 dias. Escreva e date.",
+  "Navegue: execute o primeiro passo do seu compromisso hoje. Pequeno e concreto.",
+  "Use IA para resolver 1 tarefa real do trabalho, do início ao fim.",
+  "Comunique a alguém de confiança seu compromisso de 90 dias. Crie testemunha.",
+  "Releia suas anotações dos 21 dias e marque as 3 viradas mais importantes.",
+  "Feche o ciclo: a convocação foi aceita. Escreva a carta ao líder que você será em 1 ano."]
+}
+};
+
+/* ================= ESTADO ================= */
+let arch = null;
+let checks = {};
+
+function show(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0,0);
+}
+
+async function validar(){
+  const t = document.getElementById('tk').value.trim().toUpperCase();
+  const btn = document.getElementById('btnvalidar');
+  const err = document.getElementById('gerr');
+  err.style.display='none';
+  if(!t){ err.style.display='block'; return; }
+  btn.disabled = true; btn.textContent='Validando...';
+  let ok = false;
+  if(!CONFIG.VALIDAR_URL){
+    ok = (t === 'TESTE-2026'); // modo teste local
+  } else {
+    try{
+      const r = await fetch(CONFIG.VALIDAR_URL+'?token='+encodeURIComponent(t));
+      const j = await r.json();
+      ok = !!j.valido;
+    }catch(e){ ok=false; }
+  }
+  btn.disabled=false; btn.textContent='Acessar meu plano';
+  if(!ok){ err.style.display='block'; return; }
+  try{ localStorage.setItem('triade_token', t); }catch(e){}
+  abrirPlano();
+}
+
+function abrirPlano(){
+  let saved = null;
+  try{ saved = JSON.parse(localStorage.getItem('triade_resultado')||'null'); }catch(e){}
+  if(saved && PLANOS[saved.arquetipo]){
+    arch = saved.arquetipo;
+    document.getElementById('ph-who').textContent =
+      (saved.nome?saved.nome+', ':'')+'Autoliderança '+saved.pct.A+'% · Intenção '+saved.pct.I+'% · Tecnologia '+saved.pct.T+'%';
+  } else {
+    const sel = document.getElementById('archsel');
+    sel.innerHTML = '<option value="">Escolha seu arquétipo</option>'+
+      Object.keys(PLANOS).map(k=>`<option value="${k}">${k}</option>`).join('');
+    document.getElementById('noresult').style.display='block';
+    arch = Object.keys(PLANOS)[7]; // O Convocado como padrão
+  }
+  renderPlano();
+  show('plano');
+}
+
+function manualArch(v){ if(v){ arch=v; renderPlano(); } }
+
+function renderPlano(){
+  const p = PLANOS[arch];
+  try{ checks = JSON.parse(localStorage.getItem('triade_checks_'+arch)||'{}'); }catch(e){ checks={}; }
+  document.getElementById('ph-arch').textContent = arch;
+  document.getElementById('ph-foco').innerHTML = '<strong>Foco do seu plano:</strong> '+p.foco;
+  const weeks = document.getElementById('weeks');
+  weeks.innerHTML = [0,1,2].map(w=>{
+    const dias = p.dias.slice(w*7,(w+1)*7).map((d,i)=>{
+      const n = w*7+i+1;
+      const done = checks[n]?'done':'';
+      return `<div class="day ${done}">
+        <input type="checkbox" ${checks[n]?'checked':''} onchange="toggleDay(${n},this)" aria-label="Dia ${n} concluído">
+        <div><div class="day-meta">Dia ${n} · ${FASE(n)}</div><div class="day-txt">${d}</div></div>
+      </div>`;
+    }).join('');
+    return `<div class="week ${w===0?'open':''}">
+      <button class="week-head" onclick="this.parentElement.classList.toggle('open')">
+        <span><span class="wk-title">Semana ${w+1}: ${p.semanas[w]}</span><span class="wk-sub">Dias ${w*7+1} a ${(w+1)*7}</span></span>
+        <svg class="chev" width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      </button>
+      <div class="week-body">${dias}</div>
+    </div>`;
+  }).join('');
+  updateProg();
+}
+
+function toggleDay(n, el){
+  checks[n] = el.checked;
+  el.closest('.day').classList.toggle('done', el.checked);
+  try{ localStorage.setItem('triade_checks_'+arch, JSON.stringify(checks)); }catch(e){}
+  updateProg();
+}
+
+function updateProg(){
+  const done = Object.values(checks).filter(Boolean).length;
+  document.getElementById('prog').style.width = (done/21*100)+'%';
+  document.getElementById('progtxt').textContent = done+' de 21 dias';
+}
+
+/* Reentrada automática: token já validado neste dispositivo */
+(function(){
+  let t=null; try{ t=localStorage.getItem('triade_token'); }catch(e){}
+  if(t){ document.getElementById('tk').value=t; }
+})();
+document.getElementById('tk').addEventListener('keydown', e=>{ if(e.key==='Enter') validar(); });
+</script>
+</body>
+</html>
