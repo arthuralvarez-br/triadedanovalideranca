@@ -62,6 +62,17 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--brass);outline-
 .esaon-legend span{font-size:.68rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;
   border:1px solid var(--ink-3);border-radius:99px;padding:5px 12px;color:var(--mist)}
 .esaon-legend b{color:var(--brass-soft);font-weight:700}
+.ritmo{display:flex;gap:8px;margin-bottom:22px;background:var(--ink-2);border:1px solid var(--ink-3);
+  border-radius:14px;padding:6px}
+.ritmo button{flex:1;background:none;color:var(--mist);font-weight:600;font-size:.84rem;
+  padding:11px 8px;border-radius:10px;transition:background .15s ease,color .15s ease;line-height:1.25}
+.ritmo button small{display:block;font-size:.66rem;font-weight:500;opacity:.8;margin-top:2px}
+.ritmo button.on{background:var(--brass);color:var(--ink)}
+.ritmo button.on small{opacity:.85}
+.matura{display:inline-flex;align-items:center;gap:5px;font-size:.62rem;font-weight:700;
+  letter-spacing:.04em;text-transform:uppercase;color:var(--quartzo);
+  border:1px solid rgba(169,207,236,.3);border-radius:99px;padding:2px 8px;margin-top:7px}
+.matura svg{width:11px;height:11px}
 .week{margin-bottom:14px;border:1px solid var(--ink-3);border-radius:var(--radius);overflow:hidden;background:var(--ink-2)}
 .week-head{width:100%;background:none;color:var(--sand);display:flex;justify-content:space-between;
   align-items:center;padding:18px 20px;text-align:left;gap:12px}
@@ -123,12 +134,18 @@ footer{text-align:center;font-size:.74rem;color:#5E7286;padding:30px 0 40px}
 
     <div class="foco" id="ph-foco"></div>
 
+    <div class="ritmo" id="ritmo">
+      <button data-modo="21" class="on" onclick="setModo('21')">21 dias<small>Uma ação por dia</small></button>
+      <button data-modo="intensivo" onclick="setModo('intensivo')">Intensivo<small>5 blocos ESAON</small></button>
+      <button data-modo="livre" onclick="setModo('livre')">Livre<small>Seu próprio ritmo</small></button>
+    </div>
+
     <div class="progress-line">
       <div class="progress-track"><div class="progress-fill" id="prog"></div></div>
       <span class="progress-txt" id="progtxt">0 de 21 dias</span>
     </div>
 
-    <div class="esaon-legend">
+    <div class="esaon-legend" id="esaonLegend">
       <span><b>E</b>stacione</span><span><b>S</b>ente</span><span><b>A</b>limente</span><span><b>O</b>riente</span><span><b>N</b>avegue</span>
     </div>
 
@@ -152,11 +169,26 @@ footer{text-align:center;font-size:.74rem;color:#5E7286;padding:30px 0 40px}
 <script>
 /* ================= CONFIGURAÇÃO ================= */
 const CONFIG = {
-  VALIDAR_URL: "https://script.google.com/macros/s/AKfycbwIqe6qKH0y_0y8mce_LhXeFdlXQ4tY-N64Aord-fF3gDX5g_xRhFe3YMUd_bN62Gs/exec" // Cole aqui a URL do Apps Script (a mesma do diagnóstico). Vazio = modo teste, aceita o token TESTE-2026
+  VALIDAR_URL: "https://script.google.com/macros/s/AKfycbwIqe6qKH0y_0y8mce_LhXeFdlXQ4tY-N64Aord-fF3gDX5g_xRhFe3YMUd_bN62Gs/exec" // mesma URL do diagnóstico
 };
 /* ================================================ */
 
 const FASE = d => d<=4?'Estacione':d<=8?'Sente':d<=12?'Alimente':d<=16?'Oriente':'Navegue';
+
+/* Blocos ESAON: faixas de dias por fase (1-indexado, inclusivo) */
+const BLOCOS_ESAON = [
+  { nome:'Estacione', ini:1,  fim:4,  desc:'Pare e observe antes de agir' },
+  { nome:'Sente',     ini:5,  fim:8,  desc:'Reconheça o que está em jogo' },
+  { nome:'Alimente',  ini:9,  fim:12, desc:'Estude e abasteça a decisão' },
+  { nome:'Oriente',   ini:13, fim:16, desc:'Defina rota e prioridades' },
+  { nome:'Navegue',   ini:17, fim:21, desc:'Execute e feche o ciclo' }
+];
+
+/* Ações de maturação: pedem tempo real (feedback, observação, decantação).
+   Mesmo no modo Intensivo, o ganho está no intervalo, não na pressa.
+   Índices = número do dia (1 a 21) que se repetem em todos os arquétipos:
+   pedidos de feedback a terceiros, observação ao longo de um dia, criar testemunha. */
+const MATURACAO = [3,6,11,15,16,19];
 
 const PLANOS = {
 "O Líder Tríade": {
@@ -372,6 +404,7 @@ const PLANOS = {
 /* ================= ESTADO ================= */
 let arch = null;
 let checks = {};
+let modo = '21';  // '21' | 'intensivo' | 'livre'
 
 function show(id){
   document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
@@ -416,36 +449,86 @@ function abrirPlano(){
     document.getElementById('noresult').style.display='block';
     arch = Object.keys(PLANOS)[7]; // O Convocado como padrão
   }
+  try{ const m = localStorage.getItem('triade_modo'); if(m){ modo = m; } }catch(e){}
+  syncRitmoBtns();
   renderPlano();
   show('plano');
 }
 
+function setModo(m){
+  modo = m;
+  try{ localStorage.setItem('triade_modo', m); }catch(e){}
+  syncRitmoBtns();
+  renderPlano();
+}
+
+function syncRitmoBtns(){
+  document.querySelectorAll('#ritmo button').forEach(b=>{
+    b.classList.toggle('on', b.dataset.modo === modo);
+  });
+}
+
 function manualArch(v){ if(v){ arch=v; renderPlano(); } }
+
+function selo(n){
+  if(MATURACAO.indexOf(n) === -1) return '';
+  return `<span class="matura"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.8"/><path d="M12 7v5l3 2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>deixe decantar</span>`;
+}
+
+function itemDia(d, n, rotulo){
+  const done = checks[n]?'done':'';
+  return `<div class="day ${done}">
+    <input type="checkbox" ${checks[n]?'checked':''} onchange="toggleDay(${n},this)" aria-label="Ação ${n} concluída">
+    <div><div class="day-meta">${rotulo}</div><div class="day-txt">${d}</div>${selo(n)}</div>
+  </div>`;
+}
 
 function renderPlano(){
   const p = PLANOS[arch];
   try{ checks = JSON.parse(localStorage.getItem('triade_checks_'+arch)||'{}'); }catch(e){ checks={}; }
   document.getElementById('ph-arch').textContent = arch;
   document.getElementById('ph-foco').innerHTML = '<strong>Foco do seu plano:</strong> '+p.foco;
+  document.getElementById('esaonLegend').style.display = (modo==='intensivo') ? 'none' : 'flex';
   const weeks = document.getElementById('weeks');
-  weeks.innerHTML = [0,1,2].map(w=>{
-    const dias = p.dias.slice(w*7,(w+1)*7).map((d,i)=>{
-      const n = w*7+i+1;
-      const done = checks[n]?'done':'';
-      return `<div class="day ${done}">
-        <input type="checkbox" ${checks[n]?'checked':''} onchange="toggleDay(${n},this)" aria-label="Dia ${n} concluído">
-        <div><div class="day-meta">Dia ${n} · ${FASE(n)}</div><div class="day-txt">${d}</div></div>
-      </div>`;
+
+  if(modo === '21'){
+    // 3 semanas de 7 dias, rótulo "Dia N"
+    weeks.innerHTML = [0,1,2].map(w=>{
+      const dias = p.dias.slice(w*7,(w+1)*7).map((d,i)=>{
+        const n = w*7+i+1;
+        return itemDia(d, n, `Dia ${n} · ${FASE(n)}`);
+      }).join('');
+      return bloco(`Semana ${w+1}: ${p.semanas[w]}`, `Dias ${w*7+1} a ${(w+1)*7}`, dias, w===0);
     }).join('');
-    return `<div class="week ${w===0?'open':''}">
-      <button class="week-head" onclick="this.parentElement.classList.toggle('open')">
-        <span><span class="wk-title">Semana ${w+1}: ${p.semanas[w]}</span><span class="wk-sub">Dias ${w*7+1} a ${(w+1)*7}</span></span>
-        <svg class="chev" width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
-      </button>
-      <div class="week-body">${dias}</div>
-    </div>`;
-  }).join('');
+  } else if(modo === 'intensivo'){
+    // 5 blocos por fase ESAON, sem a palavra "dia"
+    weeks.innerHTML = BLOCOS_ESAON.map((b,bi)=>{
+      let itens = '';
+      for(let n=b.ini; n<=b.fim; n++){
+        itens += itemDia(p.dias[n-1], n, `Ação ${n}`);
+      }
+      const qtd = b.fim - b.ini + 1;
+      return bloco(`${bi+1}. ${b.nome}`, `${b.desc} · ${qtd} ações`, itens, bi===0);
+    }).join('');
+  } else {
+    // livre: lista única, sem datas nem blocos, no próprio ritmo
+    const itens = p.dias.map((d,i)=>{
+      const n = i+1;
+      return itemDia(d, n, `${FASE(n)}`);
+    }).join('');
+    weeks.innerHTML = bloco('Seu plano, no seu ritmo', 'Marque conforme avança, sem prazo', itens, true);
+  }
   updateProg();
+}
+
+function bloco(titulo, sub, corpo, aberto){
+  return `<div class="week ${aberto?'open':''}">
+    <button class="week-head" onclick="this.parentElement.classList.toggle('open')">
+      <span><span class="wk-title">${titulo}</span><span class="wk-sub">${sub}</span></span>
+      <svg class="chev" width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+    </button>
+    <div class="week-body">${corpo}</div>
+  </div>`;
 }
 
 function toggleDay(n, el){
@@ -458,7 +541,8 @@ function toggleDay(n, el){
 function updateProg(){
   const done = Object.values(checks).filter(Boolean).length;
   document.getElementById('prog').style.width = (done/21*100)+'%';
-  document.getElementById('progtxt').textContent = done+' de 21 dias';
+  const unidade = modo === '21' ? 'dias' : 'ações';
+  document.getElementById('progtxt').textContent = done+' de 21 '+unidade;
 }
 
 /* Reentrada automática: token já validado neste dispositivo */
